@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Delete Province</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/deleteconfirmationStyle.css}" />
+</head>
+<body>
+<header>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <h1>Delete Province</h1>
+</header>
+
+<main>
+    <!-- ✅ Inline Messages -->
+    <div th:if="${success}" class="message message-success" th:text="${success}"></div>
+    <div th:if="${error}" class="message message-error" th:text="${error}"></div>
+
+    <section class="province-details">
+        <h2>Do You Want to Delete the Following Province?</h2>
+
+        <p><strong>Province Code:</strong>
+            <span th:text="${province != null} ? ${province.provinceCode} : 'N/A'"></span>
+        </p>
+
+        <p><strong>Province Name:</strong>
+            <span th:text="${province != null} ? ${province.provinceName} : 'N/A'"></span>
+        </p>
+
+        <p><strong>Province Address:</strong>
+            <span th:text="${province != null} ? ${province.provinceAddress} : 'N/A'"></span>
+        </p>
+
+    <div class="province-actions">
+        <a th:href="@{/province/all}" class="btn-cancel">
+            <i class="fa fa-times"></i> Cancel
+        </a>
+        <a th:href="@{/province/delete/{id}(id=${province.provinceCode})}" class="btn-delete">
+            <i class="fa fa-trash"></i> Delete
+        </a>
+    </div>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

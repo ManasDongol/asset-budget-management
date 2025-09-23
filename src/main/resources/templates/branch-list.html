@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Branch Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+</head>
+<body>
+    <header>
+        <!-- Include navbar and sidebar fragments -->
+        <div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <h1>All Branches</h1>
+    </header>
+
+    <main>
+        <section>
+			<div class="user-actions">
+			  <a class="btn btn-add" th:href="@{/branch/add}">
+			    <i class="fa fa-code-branch"></i> Add New Branch
+			  </a>
+			  <a class="btn btn-export" th:href="@{/branch/export}">
+			    <i class="fa fa-file-excel"></i> Export to Excel
+			  </a>
+
+			  <form th:action="@{/branch/all}" method="get" class="search-form">
+			    <input type="text" name="keyword" placeholder="Search branches..." th:value="${keyword}" />
+			    <button type="submit"><i class="fa fa-search"></i></button>
+			  </form>
+			</div>
+			
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch Code</th>
+                        <th>Branch Name</th>
+                        <th>Branch Address</th>
+						<th>Province Code</th>
+						<th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="branch : ${branches}">
+                        <td th:text="${branch.branchCode}"></td>
+                        <td th:text="${branch.branchName}"></td>
+                        <td th:text="${branch.branchAddress}"></td>
+						<td th:text="${branch.provinceCode != null} ? ${branch.provinceCode.provinceCode} : 'N/A'"></td>
+						<td th:text="${branch.createdAt}"></td>
+                        <td>
+                            <a th:href="@{/branch/edit/{id}(id=${branch.branchCode})}" 
+                               class="action-btn edit-btn" title="Edit Branch">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a th:href="@{/branch/confirm-delete/{id}(id=${branch.branchCode})}" 
+                               class="action-btn delete-btn" title="Delete Branch">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+/* dashboardstyle.css */
+
+/* Import Font Awesome from CDN */
+@import url("fontawesome/css/all.min.css");
+
+/* imporitng preeti */
+@font-face {
+    font-family: 'Himali';
+    src: url('/fonts/Himali.ttf') format('truetype'); 
+}
+
+/* Body and font */
+body {
+    background: #c6f7c6;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #4caf50;
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.navbar {
+    align-items: center;
+    color: white;
+}
+
+.profile-menu {
+    display: inline-block;
+	text-align: right;
+}
+
+
+.profile-menu i {
+    font-size: 20px;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 150px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+ }
+
+.dropdown a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    background-color: #f1f1f1;
+}
+
+.profile-menu:hover .dropdown {
+    display: block;
+}
+
+
+
+/* Main container */
+main {
+    margin-left: 200px; /* Sidebar space */
+    padding: 32px;
+    max-width: 960px;
+}
+
+/* Section */
+main section {
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(5, 209, 5, 0.2);
+}
+
+main section h2 {
+    color: #4caf50;
+    font-weight: 700;
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+main section p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100%;
+    background: linear-gradient(180deg, #4caf50, #388e3c); /* modern gradient */
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    transform: translateX(-100%); /* hidden by default */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Sidebar active (when opened) */
+.sidebar.active {
+    transform: translateX(0);
+}
+
+/* Sidebar nav */
+.sidebar nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar links */
+.sidebar nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 14px 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    border-left: 4px solid transparent; /* indicator */
+    transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.sidebar nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-left: 4px solid #fff;
+    padding-left: 15px; 
+}
+
+/* Active link style */
+.sidebar nav a.active {
+    background: rgba(255, 255, 255, 0.25);
+    border-left: 4px solid #ffeb3b;
+    font-weight: 600;
+}
+
+/* Sidebar hide button */
+#Sidebar-hide-Btn {
+    color: white;
+    font-size: 20px;
+    margin: 10px 20px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: transform 0.2s ease;
+}
+
+#Sidebar-hide-Btn:hover {
+    transform: rotate(180deg); /* spin */
+}
+
+/* Sidebar show button */
+#Sidebar-show-Btn {
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 16px;
+    transition: transform 0.2s ease;
+}
+
+#Sidebar-show-Btn:hover {
+    transform: scale(1.2);
+}
+
+
+.sidebar .menu-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .menu-toggle {
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.sidebar .submenu {
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    transition: max-height 0.3s ease;
+    margin-left: 10px; /* indent submenu */
+}
+
+.sidebar .submenu a {
+    padding: 12px 30px;
+    font-size: 15px;
+    border-left: 4px solid transparent;
+}
+
+.sidebar .submenu a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-left: 4px solid #fff;
+    padding-left: 20px; /* shift for submenu */
+}
+
+/* Toggle submenu visible */
+.sidebar .menu-item.active .submenu {
+    max-height: 500px; /* enough to show all items */
+}
+
+/* Arrow rotation */
+.sidebar .submenu-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar .menu-item.active .submenu-arrow {
+    transform: rotate(180deg);
+}

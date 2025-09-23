@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    
+	<link rel="stylesheet" th:href="@{/css/loginStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="/images/logo-eng.png" alt="Logo" />
+        </div>
+        <h2>Login</h2>
+        <form method="post" action="/login" class="login-form" id="loginForm">
+            <div class="input-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" name="username" id="username" placeholder="Username" required />
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Password" required />
+            </div>
+            <button type="submit">Login</button>
+            <p id="error-message" style="color:red; display:none;">Invalid username or password.</p>
+            <p id="logout-message" style="color:green; display:none;">You have been logged out successfully.</p>
+			<p id="password-changed-message" style="color:green; display:none;">
+			    Password updated. Please Re-Login.
+			</p>
+			</form>
+    </div>
+
+    <script>
+        // Username validation: no special characters
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            const username = document.getElementById("username").value;
+            const usernamePattern = /^[a-zA-Z0-9]+$/; 
+            if (!usernamePattern.test(username)) {
+                alert("Do not use special characters in username.");
+                event.preventDefault();
+            }
+        });
+
+        // Show error or logout messages based on URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("error")) {
+            document.getElementById("error-message").style.display = "block";
+        }
+        if (urlParams.has("logout")) {
+            document.getElementById("logout-message").style.display = "block";
+        }
+		if (urlParams.has("passwordChanged")) {
+		    document.getElementById("password-changed-message").style.display = "block";
+		}
+    </script>
+</body>
+</html>

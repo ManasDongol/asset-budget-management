@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Set New Password</title>
+    
+	<link rel="stylesheet" th:href="@{/css/loginStyle.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="/images/logo-eng.png" alt="Logo" />
+        </div>
+        <h2>Set New Password</h2>
+
+        <form th:action="@{/newUser}" method="post" class="login-form" id="setPasswordForm">
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="newPassword" placeholder="New Password"/>
+            </div>
+
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="confirmPassword" placeholder="Confirm Password"/>
+            </div>
+
+            <button type="submit">Save</button>
+
+			<p style="margin-top:10px; color:rgb(255, 0, 0);" 
+			   id="set-pwd-msg" 
+			   th:utext="${error != null} ? ${error} : 'You have logged in for the first time.<br>Please set a new password.'">
+			</p>
+
+        </form>
+    </div>
+
+</body>
+</html>

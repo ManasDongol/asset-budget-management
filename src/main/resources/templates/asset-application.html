@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ne" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>कृषि विकास बैंक</title>
+  <link rel="stylesheet" th:href="@{/css/Style.css}" />
+  <link rel="stylesheet" th:href="@{/css/asset-applicationStyle.css}">
+  
+  <style>
+    body { background-color: white; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+  </header>
+  
+  <form th:action="@{/asset-application/edit}" method="get" class="load-application">
+      <input type="text" name="appNumber" placeholder="e.g. 2082/83-007" />
+      <button type="submit">Load Application</button>
+  </form>
+
+  
+  <button class="print-btn" onclick="window.print()">Print Sample</button>
+
+  <div th:if="${successMessage}" class="success-msg" th:text="${successMessage}"></div>
+
+  <div th:if="${errorMessage}" class="error-msg" th:text="${errorMessage}"></div>
+
+
+  <form th:action="@{/asset-application/save}" method="post" th:object="${applicationDetails}">
+    <div class="letter-head">
+      <div>
+        <h1>
+          <img th:src="@{/images/ADBL-LOGO-CIRCLE.png}" alt="कृषि विकास बैंक लोगो" class="logo">
+          कृषि विकास बैंक लिमिटेड
+        </h1>
+        <div>सूचना प्रविधि विभाग, मुख्य कार्यालय</div>
+        <div>फोन नं.: ०१-४२१७०३९ Email : it.divn@adbl.gov.np</div>
+      </div>
+    </div>
+
+    <div class="application-info">
+      <div class="info-row">
+        <div class="info-pair">
+          <div class="title">लाई :</div>
+          <div class="value"><input type="text" th:field="*{toWhom}" class="printable-input" required></div>
+        </div>
+        <div class="info-pair">
+          <div class="title">आ.प.नं :</div>
+		  <div class="value">
+			<input type="text" name="applicationNumber" 
+			       th:value="${applicationDetails.applicationNumber}" 
+			       class="printable-input nepali-preeti" >
+		  </div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-pair">
+          <div class="title">बाट :</div>
+          <div class="value"><input type="text" th:field="*{fromWhom}" class="printable-input" required></div>
+        </div>
+        <div class="info-pair">
+          <div class="title">मिति :</div>
+          <div class="value"><input type="text" th:field="*{date}" class="printable-input nepali-preeti" required></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-pair">
+          <div class="title">विषय :</div>
+          <div class="value"><input type="text" th:field="*{subject}" class="printable-input" required></div>
+        </div>
+        <div class="info-pair">
+          <div class="title">बोधार्थ :</div>
+          <div class="value"><input type="text" th:field="*{cc}" class="printable-input"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3>व्यहोरा</h3>
+    <p id="recommendationText">
+      प्रदेश कार्यालयको सिफारिस अनुसार तपशिल अनुसारको सामान वा आवश्यक बजेट व्यवस्थाको लागि सिफारिस गरिएको व्यहोरा अनुरोध छ ।
+    </p>
+
+	<table id="info-Table">
+	  <tr>
+	    <th>क.सं.</th>
+	    <th>कार्यालयको नाम</th>
+	    <th>सामानको विवरण</th>
+	    <th>थान</th>
+	    <th>रकम</th>
+	    <th>माग भइ <br> आएको रकम</th>
+	    <th>कैफियत</th>
+	    <th>Action</th>
+	  </tr>
+
+	  <tr th:each="item, iterStat : *{assetHistories}">
+	    <td style="font-family: 'Himali';" th:text="${iterStat.index + 1}"></td>
+
+	    <!-- Branch select -->
+	    <td class="printable-input">
+	      <div class="branch-select-wrapper">
+	        <select th:field="*{assetHistories[__${iterStat.index}__].branch.branchCode}" required
+	                th:onchange="this.nextElementSibling.textContent=this.options[this.selectedIndex].text">
+	          <option value="" selected>-- शाखा चयन गर्नुहोस् --</option>
+	          <option th:each="branch : ${branches}" 
+	                  th:value="${branch.branchCode}" 
+	                  th:text="${branch.branchNameNepali + ' (' + branch.provinceCode.provinceNameNepali + ')'}">
+	          </option>
+	        </select>
+	        <span class="branch-print-text"></span>
+	      </div>
+	    </td>
+
+	    <td><input type="text" th:field="*{assetHistories[__${iterStat.index}__].itemDetails}" class="printable-input" required></td>
+	    <td><input type="number" th:field="*{assetHistories[__${iterStat.index}__].quantity}" class="printable-input quantity" required>थान</td>
+	    <td><input type="number" step="0.01" th:field="*{assetHistories[__${iterStat.index}__].amount}" class="printable-input number" required>/-</td>
+	    <td><input type="number" step="0.01" th:field="*{assetHistories[__${iterStat.index}__].requestedAmount}" class="printable-input number">/-</td>
+	    <td><textarea th:field="*{assetHistories[__${iterStat.index}__].remark}" class="printable-textarea"></textarea></td>
+	    <td><button type="button" class="removeRowBtn">-</button></td>
+	  </tr>
+	</table>
+
+    <button id="addRowBtn" type="button">+</button>
+	
+    <div class="signature">
+		<div class="sig-row">
+		        <div class="title">दस्तखत :</div>
+		        <div class="value"><input type="text" class="printable-input"></div>
+		</div>
+      <div class="sig-row">
+        <div class="title">पठाउने कर्मचारीको नामथर :</div>
+        <div class="value"><input type="text" th:field="*{staffFullName}" class="printable-input" required></div>
+      </div>
+      <div class="sig-row">
+        <div class="title">पद:</div>
+        <div class="value"><input type="text" th:field="*{staffPost}" class="printable-input" required></div>
+      </div>
+      <div class="sig-row">
+        <div class="title">कोड नं. :</div>
+        <div class="value"><input type="text" th:field="*{staffCode}" class="printable-input" required></div>
+      </div>
+    </div>
+
+    <!-- Save button -->
+    <div class="save-btn" style="margin-top:20px;">
+		<button type="submit" th:text="${applicationDetails.applicationNumber} != null ? 'Update' : 'Save'"></button>
+    </div>
+  </form>
+  
+  
+  <div class="search-section">
+  <!-- Search by Branch -->
+  <label for="officeSearch">शाखा खोज्नुहोस् :</label>
+  <select id="officeSearch" required>
+      <option value="" disabled selected>-- शाखा चयन गर्नुहोस् --</option>
+      <option th:each="branch : ${branches}"
+              th:value="${branch.branchCode}"
+              th:text="${branch.branchNameNepali}">
+      </option>
+  </select>
+  <button type="button" id="searchBtn">Search</button>
+
+  <!-- Results Table -->
+  <table id="recentOrdersTable" style="margin-top:15px; display:none;">
+    <thead>
+      <tr>
+        <th>क.सं.</th>
+        <th>कार्यालयको नाम</th>
+        <th>सामानको विवरण</th>
+        <th>थान</th>
+        <th>रकम</th>
+      </tr>
+    </thead>
+    <tbody>
+		
+    </tbody>
+  </table>
+  </div>
+  
+</body>
+
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/asset-application-script.js}"></script>
+
+</html>

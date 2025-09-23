@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+</head>
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar">
+        <!-- Left: Sidebar button -->
+        <i id="Sidebar-show-Btn" class="fa-solid fa-bars"></i>
+
+        <!-- Right: Profile -->
+        <!--<div class="profile-menu">
+                <i class="fa-solid fa-user-circle"></i>
+            <div class="dropdown">
+                <a th:href="@{/logout}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            </div>
+        </div>-->
+    </nav>
+</div>
+</body>
+</html>

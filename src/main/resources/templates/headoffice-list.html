@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Head Office Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+</head>
+<body>
+    <header>
+        <!-- Include navbar and sidebar fragments -->
+        <div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <h1>All Head Offices</h1>
+    </header>
+
+    <main>
+        <section>
+			<div class="user-actions">
+			  <a class="btn btn-add" th:href="@{/headoffice/add}">
+			    <i class="fa fa-building"></i> Add New Head Office
+			  </a>
+
+			  <a class="btn btn-export" th:href="@{/headoffice/export}">
+			    <i class="fa fa-file-excel"></i> Export to Excel
+			  </a>
+
+			  <form th:action="@{/headoffice/all}" method="get" class="search-form">
+			    <input type="text" name="keyword" placeholder="Search head offices..." th:value="${keyword}" />
+			    <button type="submit"><i class="fa fa-search"></i></button>
+			  </form>
+			</div>
+
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Head Office Code</th>
+                        <th>Head Office Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ho : ${headOffices}">
+                        <td th:text="${ho.headofficeCode}"></td>
+                        <td th:text="${ho.headofficeName}"></td>
+                        <td>
+                            <a th:href="@{/headoffice/edit/{id}(id=${ho.headofficeCode})}" 
+                               class="action-btn edit-btn" title="Edit Head Office">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a th:href="@{/headoffice/confirm-delete/{id}(id=${ho.headofficeCode})}" 
+                               class="action-btn delete-btn" title="Delete Head Office">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

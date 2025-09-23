@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Delete Branch</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/deleteconfirmationStyle.css}" />
+</head>
+<body>
+<header>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <h1>Delete Branch</h1>
+</header>
+
+<main>
+    <!-- ✅ Inline Message Display -->
+    <div th:if="${success}" class="message message-success" th:text="${success}"></div>
+    <div th:if="${error}" class="message message-error" th:text="${error}"></div>
+
+    <section class="branch-details">
+        <h2>Do You Want to Delete the Following Branch?</h2>
+
+        <p>
+            <strong>Branch Code:</strong>
+            <span th:text="${branch != null} ? ${branch.branchCode} : 'N/A'"></span>
+        </p>
+
+        <p>
+            <strong>Branch Name:</strong>
+            <span th:text="${branch != null} ? ${branch.branchName} : 'N/A'"></span>
+        </p>
+
+        <p>
+            <strong>Address:</strong>
+            <span th:text="${branch != null} ? ${branch.branchAddress} : 'N/A'"></span>
+        </p>
+
+    </section>
+
+    <div class="branch-actions">
+        <a th:href="@{/branch/all}" class="btn-cancel">
+            <i class="fa fa-times"></i> Cancel
+        </a>
+        <a th:href="@{/branch/delete/{id}(id=${branch.branchCode})}" class="btn-delete">
+            <i class="fa fa-trash"></i> Delete
+        </a>
+    </div>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

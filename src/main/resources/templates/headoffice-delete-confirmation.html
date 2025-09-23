@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Delete Head Office</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/deleteconfirmationStyle.css}" />
+</head>
+<body>
+<header>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <h1>Delete Head Office</h1>
+</header>
+
+<main>
+    <!-- ✅ Inline Messages -->
+    <div th:if="${success}" class="message message-success" th:text="${success}"></div>
+    <div th:if="${error}" class="message message-error" th:text="${error}"></div>
+
+    <section class="headoffice-details">
+        <h2>Do You Want to Delete the Following Head Office?</h2>
+
+        <p><strong>Head Office Code:</strong>
+            <span th:text="${headoffice != null} ? ${headoffice.headofficeCode} : 'N/A'"></span>
+        </p>
+
+        <p><strong>Head Office Name:</strong>
+            <span th:text="${headoffice != null} ? ${headoffice.headofficeName} : 'N/A'"></span>
+        </p>
+
+        <p><strong>Head Office Address:</strong>
+            <span th:text="${headoffice != null} ? ${headoffice.headofficeAddress} : 'N/A'"></span>
+        </p>
+    </section>
+
+    <div class="headoffice-actions">
+        <a th:href="@{/headoffice/all}" class="btn-cancel">
+            <i class="fa fa-times"></i> Cancel
+        </a>
+        <a th:href="@{/headoffice/delete/{id}(id=${headoffice.headofficeCode})}" class="btn-delete">
+            <i class="fa fa-trash"></i> Delete
+        </a>
+    </div>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

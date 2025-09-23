@@ -1,0 +1,89 @@
+@import url("fontawesome/css/all.min.css");
+
+body {
+    background: #c6f7c6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}
+
+.login-container {
+    background: white;
+    padding: 40px 48px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(5, 209, 5, 0.2);
+    text-align: center;
+    max-width: 300px; 
+    width: 90%;       
+}
+
+.login-container h2 {
+    font-family: Arial;
+    color: #4caf50;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-group i {
+    position: absolute;
+    left: 12px;
+    font-size: 20px;
+    color: #4caf50;
+}
+
+.input-group input {
+    padding: 12px 12px 12px 38px; 
+    font-size: 15px;
+    border: 2px solid #a7d48d;
+    border-radius: 8px;
+    width: 100%; /* changed from auto to 100% to fit container */
+    box-sizing: border-box; /* ensures padding is included in width */
+}
+
+.login-form button {
+    background: #4caf50;
+    color: white;
+    padding: 12px 0;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background: #3a9e3a;
+}
+
+.logo-container {
+    margin-bottom: 30px;
+}
+
+.logo-container img {
+    max-width: 270px;
+    border-radius: 10px;
+}
+
+/* NEW: message at bottom of form */
+#set-pwd-msg {
+    margin-top: 10px;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    max-width: 100%;
+    text-align: center;
+}

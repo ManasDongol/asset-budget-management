@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+	<link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+</head>
+<body>
+    <header>
+        <!-- Include sidebar fragment -->
+		<div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+		<h1>Users</h1>
+    </header>
+
+    <main>
+		<section>
+            <div>
+				<div class="user-actions">
+					<a class="btn btn-add" th:href="@{/adduser}">
+					  <i class="fa fa-plus"></i> Add New User
+					</a>
+					<a class="btn btn-export" th:href="@{/users/export}">
+					  <i class="fa fa-book"></i> Export to Excel
+					</a>
+
+					<form th:action="@{/users}" method="get" class="search-form">
+					  <input type="text" name="query" placeholder="Search users..." th:value="${query}" />
+					  <button type="submit"><i class="fa fa-search"></i> Search</button>
+					</form>
+				</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>Inputer</th>
+                            <th>Authoriser</th>
+							<th>Office Name</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
+						<tr th:each="user : ${users}">
+						                       <td th:text="${user.staff.staffCode}"></td>
+						                       <td th:text="${user.staff.firstName} + ' ' + ${user.staff.lastName}">exampleuser</td>
+											   <td th:text="${user.username}"></td>
+											   <td th:text="${user.inputer}"></td>
+											   <td th:text="${user.authoriser}"></td>
+											   <td th:text="${@officeLookupService.getOfficeName(user.staff.officeCode)}"></td>
+											   <td th:text="${user.createdAt}"></td>
+
+						                       <td>
+												<a th:href="@{/updateuser/{id}(id=${user.id})}" class="action-btn edit-btn" title="Edit User">
+												       <i class="fa fa-edit"></i>
+													 </a>
+												
+						                           <a th:href="@{/UserDeleteConfirmation/{id}(id=${user.id})}" class="action-btn delete-btn" title="Delete User">
+						                               <i class="fa fa-trash"></i>
+						                           </a>
+												   
+
+						                       </td>
+						                   </tr>
+						
+                    </thead>
+                </table>
+            </div>
+			</section>
+    </main>
+
+	<script th:src="@{/js/script.js}"></script>
+
+</body>
+</html>

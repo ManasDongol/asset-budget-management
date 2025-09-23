@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Delete Staff</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/deleteconfirmationStyle.css}" />
+</head>
+<body>
+<header>
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <h1>Delete Staff</h1>
+</header>
+
+<main>
+    <!-- ✅ Inline Message Display -->
+    <div th:if="${success}" class="message message-success" th:text="${success}"></div>
+    <div th:if="${error}" class="message message-error" th:text="${error}"></div>
+
+    <section class="staff-details">
+        <h2>Do You Want to Delete the Following Staff?</h2>
+
+        <p>
+            <strong>Staff Code:</strong>
+            <span th:text="${staff != null} ? ${staff.staffCode} : 'N/A'"></span>
+        </p>
+
+        <p>
+            <strong>Staff Name:</strong>
+            <span th:text="${staff != null} ? ${staff.firstName + ' ' + staff.lastName} : 'N/A'"></span>
+        </p>
+
+        <p>
+            <strong>Office:</strong>
+            <span th:text="${officeName != null} ? ${@officeLookupService.getOfficeName(staff.officeCode)} : 'N/A'"></span>
+        </p>
+    </section>
+
+    <div class="staff-actions">
+        <a th:href="@{/staff/all}" class="btn-cancel">
+            <i class="fa fa-times"></i> Cancel
+        </a>
+        <a th:href="@{/staff/delete/{id}(id=${staff.staffCode})}" class="btn-delete">
+            <i class="fa fa-trash"></i> Delete
+        </a>
+    </div>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>

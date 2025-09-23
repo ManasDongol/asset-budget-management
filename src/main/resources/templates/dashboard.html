@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboardStyle.css}" />
+</head>
+<body>
+<header>
+    <!-- Include sidebar & navbar -->
+    <div th:replace="fragments/navbar :: navbar"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+    <!--<h1>Welcome <span th:text="${username}"></span></h1>-->
+</header>
+
+<main>
+    <section>
+        <h2>Admin Panel</h2>
+        <p>You can manage application data here.</p>
+
+        <!-- Toggle Button -->
+        <div class="toggle-container">
+            <label class="switch">
+                <input type="checkbox" id="addUserToggle"
+                       th:checked="${addUserStatus == 1}">
+                <span class="slider round"></span>
+            </label>
+            <span id="statusText"
+                  th:text="${addUserStatus == 1 ? 'Add User Enabled' : 'Add User Disabled'}"></span>
+        </div>
+    </section>
+</main>
+
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("addUserToggle");
+        const statusText = document.getElementById("statusText");
+
+        toggle.addEventListener("change", function () {
+            const active = toggle.checked;
+
+            // Update status text instantly
+            statusText.textContent = active ? "Add User Enabled" : "Add User Disabled";
+
+            // Send POST request to backend
+            fetch("/dashboard/toggleAddUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "active=" + active
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

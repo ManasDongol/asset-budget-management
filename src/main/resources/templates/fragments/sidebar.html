@@ -1,0 +1,44 @@
+<!-- fragments/sidebar.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<div th:fragment="sidebar">
+	    <aside class="sidebar" id="sidebar">
+	        <nav>
+	            <i id="Sidebar-hide-Btn" class="fa-solid fa-arrow-left"></i>
+	            <a th:href="@{/dashboard}"><i class="fa fa-home"></i> Dashboard</a>
+
+	            <div class="menu-item">
+	                <a href="javascript:void(0);" class="menu-toggle">
+	                    <i class="fa fa-cogs"></i> Management
+	                    <i class="fa fa-chevron-down submenu-arrow"></i>
+	                </a>
+	                <div class="submenu">
+	                    <a th:href="@{/users}"><i class="fa fa-user"></i> Users</a>
+	                    <a th:href="@{/staff/all}"><i class="fa-solid fa-users"></i> Staffs</a>
+	                    <a th:href="@{/branch/all}"><i class="fa-solid fa-building"></i> Branches</a>
+	                    <a th:href="@{/province/all}"><i class="fa-solid fa-map-location-dot"></i> Provinces</a>
+	                    <a th:href="@{/headoffice/all}"><i class="fa-solid fa-city"></i> Head Office</a>
+	                </div>
+	            </div>
+								
+				<div class="menu-item">
+				                <a href="javascript:void(0);" class="menu-toggle">
+				                    <i class="fa fa-envelope"></i> Application
+				                    <i class="fa fa-chevron-down submenu-arrow"></i>
+				                </a>
+				                <div class="submenu">
+				                    <a th:href="@{/asset-application/new}"><i class="fa fa-plus"></i>Add New</a>
+				                    <a th:href="@{/asset-application/all}"><i class="fa fa-list"></i> View Old</a>
+				                </div>
+				            </div>
+				
+	            <a th:href="@{/logout}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+	        </nav>
+	    </aside>
+	</div>
+
+</body>
+</html>

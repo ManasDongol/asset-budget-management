@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${province.provinceCode} == null ? 'Add Province' : 'Edit Province'"></title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/adduserStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/FormStyle.css}" />
+</head>
+<body>
+    <header>
+        <div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <h1 th:text="${province.provinceCode} == null ? 'Add Province' : 'Edit Province'"></h1>
+    </header>
+
+    <main>
+        <!-- Left: Province Form -->
+        <section class="form-section">
+            <h2 id="subheadingText">
+                <i class="fa fa-map"></i>
+                <span th:text="${province.provinceCode} == null ? 'Add Province' : 'Edit Province'"></span>
+            </h2>
+
+            <!-- Error Message -->
+            <div th:if="${error}" class="message error">
+                <i class="fa fa-exclamation-circle"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- Success Message -->
+            <div th:if="${success}" class="message success">
+                <i class="fa fa-check-circle"></i>
+                <span th:text="${success}"></span>
+            </div>
+
+            <form id="provinceForm"
+                  th:action="${province.provinceCode} == null ? @{/province/add} : @{'/province/edit/' + ${province.provinceCode}}"
+                  th:object="${province}" method="post">
+
+                <div class="form-group">
+                    <label for="provinceCode"><i class="fa fa-id-badge"></i> Province Code</label>
+                    <input type="text" id="provinceCode" th:field="*{provinceCode}"
+                           placeholder="Enter province code" maxlength="10"
+                           th:readonly="${province.provinceCode} != null" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="provinceName"><i class="fa fa-map-marked-alt"></i> Province Name</label>
+                    <input type="text" id="provinceName" th:field="*{provinceName}"
+                           placeholder="Enter province name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="provinceAddress"><i class="fa fa-map-marker-alt"></i> Province Address</label>
+                    <input type="text" id="provinceAddress" th:field="*{provinceAddress}"
+                           placeholder="Enter province address" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="headOfficeCode"><i class="fa fa-building"></i> Head Office Code</label>
+                    <input type="text" id="headOfficeCode" th:field="*{headOfficeCode}"
+                           placeholder="Enter head office code" required />
+                </div>
+
+                <div class="form-group">
+                    <button id="formBtn" type="submit">
+                        <i class="fa fa-save"></i>
+                        <span th:text="${province.provinceCode} == null ? 'Add Province' : 'Update Province'"></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Right: Recently Added/Updated Provinces -->
+        <section class="recent-users">
+            <h2><i class="fa fa-map"></i> Recently Updated Provinces</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-id-badge"></i> Code</th>
+                        <th><i class="fa fa-map-marked-alt"></i> Province Name</th>
+                        <th><i class="fa fa-tasks"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${recentProvinces}">
+                        <td th:text="${p.provinceCode}"></td>
+                        <td th:text="${p.provinceName}"></td>
+                        <td>
+                            <a th:href="@{/province/edit/{code}(code=${p.provinceCode})}"
+                               class="action-btn edit-btn" title="Edit Province">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a th:href="@{/province/delete/{code}(code=${p.provinceCode})}"
+                               class="action-btn delete-btn" title="Delete Province">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

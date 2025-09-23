@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${staff.staffCode} == null ? 'Add Staff' : 'Edit Staff'"></title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/adduserStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/FormStyle.css}" />
+</head>
+<body>
+    <header>
+        <div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <h1 th:text="${staff.staffCode} == null ? 'Add Staff' : 'Edit Staff'"></h1>
+    </header>
+
+    <main>
+        <!-- Left: Staff Form -->
+        <section class="form-section">
+            <h2 id="subheadingText">
+                <i class="fa fa-user-tie"></i> 
+                <span th:text="${staff.staffCode} == null ? 'Add Staff' : 'Edit Staff'"></span>
+            </h2>
+
+            <!-- Error Message -->
+            <div th:if="${error}" class="message error">
+                <i class="fa fa-exclamation-circle"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- Success Message -->
+            <div th:if="${success}" class="message success">
+                <i class="fa fa-check-circle"></i>
+                <span th:text="${success}"></span>
+            </div>
+
+            <form id="staffForm" 
+                  th:action="${staff.staffCode} == null ? @{/staff/add} : @{'/staff/edit/' + ${staff.staffCode}}" 
+                  th:object="${staff}" method="post">
+
+                <div class="form-group">
+                    <label for="staffCode"><i class="fa fa-id-badge"></i> Staff Code</label>
+                    <input type="text" id="staffCode" th:field="*{staffCode}" 
+                           placeholder="Enter staff code" maxlength="10"
+                           th:value="${staff.staffCode} != null" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="firstName"><i class="fa fa-user"></i> First Name</label>
+                    <input type="text" id="firstName" th:field="*{firstName}" 
+                           placeholder="Enter first name" required />
+                </div>	
+
+                <div class="form-group">
+                    <label for="lastName"><i class="fa fa-user"></i> Last Name</label>
+                    <input type="text" id="lastName" th:field="*{lastName}" 
+                           placeholder="Enter last name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="officeCode"><i class="fa fa-building"></i> Office Code</label>
+                    <input type="text" id="officeCode" th:field="*{officeCode}" 
+                           placeholder="Enter office code" required />
+                </div>
+
+                <div class="form-group">
+                    <button id="formBtn" type="submit">
+                        <i class="fa fa-save"></i> 
+                        <span th:text="${staff.staffCode} == null ? 'Add Staff' : 'Update Staff'"></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Right: Recently Added/Updated Staff -->
+        <section class="recent-users">
+            <h2><i class="fa fa-users"></i> Recently Updated Staff</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-id-badge"></i> Staff Code</th>
+                        <th><i class="fa fa-user"></i> Staff Name</th>
+                        <th><i class="fa fa-tasks"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="s : ${recentStaff}">
+                        <td th:text="${s.staffCode}"></td>
+                        <td th:text="${s.firstName} + ' ' + ${s.lastName}"></td>
+                        <td>
+                            <a th:href="@{/staff/delete/{code}(code=${s.staffCode})}" 
+                               class="action-btn delete-btn" title="Delete Staff">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                            <a th:href="@{/staff/edit/{code}(code=${s.staffCode})}" 
+                               class="action-btn edit-btn" title="Edit Staff">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

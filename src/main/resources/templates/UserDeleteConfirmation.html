@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>View User</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+	<link rel="stylesheet" th:href="@{/css/deleteconfirmationStyle.css}" />
+</head>
+<body>
+    <header>
+		<div th:replace="fragments/navbar :: navbar"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
+		<h1>User Details</h1>
+    </header>
+
+    <main>
+        <section class="user-details">
+            <h2>Do You Want to Delete the Following User?</h2>
+            
+            <p>
+                <strong>Username:</strong> 
+                <span th:text="${user != null} ? ${user.username} : 'N/A'"></span>
+            </p>
+            
+            <p>
+                <strong>Staff Name:</strong> 
+                <span th:text="${user != null && user.staff != null} ? ${user.staff.firstName + ' ' + user.staff.lastName} : 'N/A'"></span>
+            </p>
+            
+            <p>
+                <strong>Office:</strong> 
+                <span th:text="${officeName != null} ? ${officeName} : 'N/A'"></span>
+            </p>
+        </section>
+
+        <div class="user-actions">
+            <a th:href="@{/users}" class="btn-cancel">
+                <i class="fa fa-times"></i> Cancel
+            </a>
+            <a th:href="@{/deleteUser/{id}(id=${user.id})}" class="btn-delete">
+                <i class="fa fa-trash"></i> Delete
+            </a>
+        </div>
+    </main>
+	
+	<script th:src="@{/js/script.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${headOffice.headofficeCode} == null ? 'Add Head Office' : 'Edit Head Office'"></title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/adduserStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+    <link rel="stylesheet" th:href="@{/css/FormStyle.css}" />
+</head>
+<body>
+    <header>
+        <div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <h1 th:text="${headOffice.headofficeCode} == null ? 'Add Head Office' : 'Edit Head Office'"></h1>
+    </header>
+
+    <main>
+        <!-- Left: Head Office Form -->
+        <section class="form-section">
+            <h2 id="subheadingText">
+                <i class="fa fa-building"></i>
+                <span th:text="${headOffice.headofficeCode} == null ? 'Add Head Office' : 'Edit Head Office'"></span>
+            </h2>
+
+            <!-- Error Message -->
+            <div th:if="${error}" class="message error">
+                <i class="fa fa-exclamation-circle"></i>
+                <span th:text="${error}"></span>
+            </div>
+
+            <!-- Success Message -->
+            <div th:if="${success}" class="message success">
+                <i class="fa fa-check-circle"></i>
+                <span th:text="${success}"></span>
+            </div>
+
+            <form id="headOfficeForm" 
+                  th:action="${headOffice.headofficeCode} == null ? @{/headoffice/add} : @{'/headoffice/edit/' + ${headOffice.headofficeCode}}" 
+                  th:object="${headOffice}" method="post">
+
+                <div class="form-group">
+                    <label for="headofficeCode"><i class="fa fa-id-badge"></i> Head Office Code</label>
+                    <input type="text" id="headofficeCode" th:field="*{headofficeCode}" 
+                           placeholder="Enter head office code" maxlength="10"
+                           th:readonly="${headOffice.headofficeCode} != null" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="headofficeName"><i class="fa fa-building"></i> Head Office Name</label>
+                    <input type="text" id="headofficeName" th:field="*{headofficeName}" 
+                           placeholder="Enter head office name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="headofficeAddress"><i class="fa fa-map-marker-alt"></i> Head Office Address</label>
+                    <input type="text" id="headofficeAddress" th:field="*{headofficeAddress}" 
+                           placeholder="Enter head office address" required />
+                </div>
+
+                <div class="form-group">
+                    <button id="formBtn" type="submit">
+                        <i class="fa fa-save"></i>
+                        <span th:text="${headOffice.headofficeCode} == null ? 'Add Head Office' : 'Update Head Office'"></span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Right: Recently Added/Updated Head Offices -->
+        <section class="recent-users">
+            <h2><i class="fa fa-building"></i> Recently Updated Head Offices</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-id-badge"></i> Code</th>
+                        <th><i class="fa fa-building"></i> Head Office Name</th>
+                        <th><i class="fa fa-tasks"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="h : ${recentHeadOffices}">
+                        <td th:text="${h.headofficeCode}"></td>
+                        <td th:text="${h.headofficeName}"></td>
+                        <td>
+                            <a th:href="@{/headoffice/edit/{code}(code=${h.headofficeCode})}" 
+                               class="action-btn edit-btn" title="Edit Head Office">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a th:href="@{/headoffice/delete/{code}(code=${h.headofficeCode})}" 
+                               class="action-btn delete-btn" title="Delete Head Office">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

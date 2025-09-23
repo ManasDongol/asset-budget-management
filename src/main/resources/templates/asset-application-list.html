@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Application Records</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+</head>
+<body>
+    <header>
+        <div th:replace="fragments/navbar :: navbar"></div>
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+        <h1>Application Records</h1>
+    </header>
+
+    <main>
+        <section>
+            <div class="user-actions">
+                <a class="btn btn-add" th:href="@{/asset-application/new}">
+                    <i class="fa fa-plus"></i> New Application
+                </a>
+
+                <a class="btn btn-export" th:href="@{/asset-application/export}">
+                    <i class="fa fa-file-excel"></i> Export to Excel
+                </a>
+
+                <form th:action="@{/asset-application/all}" method="get" class="search-form">
+                    <input type="text" name="appNumber" placeholder="Search by Application No..." th:value="${appNumber}" />
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Application Number</th>
+                        <th>Fiscal Year</th>
+                        <th>To Whom</th>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Staff Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="record : ${applicationRecords}">
+                        <td th:text="${record.applicationNumber}"></td>
+                        <td th:text="${record.fiscalYear}"></td>
+                        <td th:text="${record.toWhom}"></td>
+                        <td th:text="${record.date}"></td>
+                        <td th:text="${record.subject}"></td>
+                        <td th:text="${record.staffFullName}"></td>
+                        <td>
+                            <a th:href="@{/asset-application/edit?appNumber={id}(id=${record.applicationNumber})}" 
+                               class="action-btn edit-btn" title="Edit">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a th:href="@{/asset-application/confirm-delete/{id}(id=${record.applicationNumber})}" 
+                               class="action-btn delete-btn" title="Delete">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(applicationRecords)}">
+                        <td colspan="11">No records found for this application number.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

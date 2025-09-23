@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Add User</title>
+    <link rel="stylesheet" th:href="@{/css/Style.css}" />
+    <link rel="stylesheet" th:href="@{/css/adduserStyle.css}" />
+	<link rel="stylesheet" th:href="@{/css/TableStyle.css}" />
+	<link rel="stylesheet" th:href="@{/css/FormStyle.css}" />
+
+</head>
+<body>
+    <header>
+        <div th:replace="fragments/navbar :: navbar"></div>
+		<div th:replace="fragments/sidebar :: sidebar"></div>
+		<h1>Add User</h1>
+    </header>
+
+    <main>
+        <!-- Left: Add User Form -->
+        <section class="form-section">
+            <h2 id="subheadingText"><i class="fa fa-user-plus"></i> Add New User</h2>
+            
+            <!-- Error Message -->
+            <div th:if="${error}" class="message error">
+                <i class="fa fa-exclamation-circle"></i>
+                <span th:text="${error}"></span>
+            </div>
+            
+            <!-- Success Message -->
+            <div th:if="${success}" class="message success">
+                <i class="fa fa-check-circle"></i>
+                <span th:text="${success}"></span>
+            </div>
+
+            
+			<form id="userForm" th:action="@{/adduser}" method="post">
+			    <input type="hidden" id="userId" name="id" /> <!-- hidden field for updates -->
+
+			    <div class="form-group">
+			        <label for="username"><i class="fa fa-user"></i> Username</label>
+			        <input type="text" id="username" name="username" placeholder="Enter username" required />
+			    </div>
+
+			    <div class="form-group">
+			        <label for="password"><i class="fa fa-lock"></i> Password</label>
+			        <input type="password" id="password" name="password" placeholder="Enter password"  />
+			    </div>
+
+			    <div class="form-group">
+			        <label for="confirmPassword"><i class="fa fa-lock"></i> Confirm Password</label>
+			        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"  />
+			    </div>
+
+			    <div class="form-group">
+			        <label for="staffCode"><i class="fa fa-id-badge"></i> Staff Code</label>
+			        <input type="text" id="staffCode" name="staffCode" placeholder="Enter staff code" maxlength="10" required />
+			    </div>
+
+			    <div class="form-group">
+			        <label for="inputer"><i class="fa fa-user-edit"></i> Inputer</label>
+			        <input type="text" id="inputer" name="inputer" placeholder="Enter inputer name" readonly th:value="${loggedinUsername}" />
+			    </div>
+
+			    <div class="form-group">
+			        <label for="authoriser"><i class="fa fa-user-check"></i> Authoriser</label>
+			        <input type="text" id="authoriser" name="authoriser" placeholder="Enter authoriser name" required />
+			    </div>
+
+				<div class="form-group">
+				    <button id="formBtn" type="submit"
+				            th:disabled="${addUserStatus == 0}"
+				            th:classappend="${addUserStatus == 0} ? ' disabled-btn' : ''">
+				        <i class="fa fa-plus"></i> Add User
+				    </button>
+				</div>
+			</form>
+
+			
+        </section>
+
+        <!-- Right: Recently Added Users -->
+        <section class="recent-users">
+            <h2><i class="fa fa-users"></i> Recently Added Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-id-badge"></i> Staff Code</th>
+                        <th><i class="fa fa-user"></i> Staff Name</th>
+                        <th><i class="fa fa-tasks"></i> Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${recentUsers}">
+                        <td th:text="${user.staff.staffCode}"></td>
+                        <td th:text="${user.staff.firstName} + ' ' + ${user.staff.lastName}">exampleuser</td>
+                        <td>
+                            <a th:href="@{/UserDeleteConfirmation/{id}(id=${user.id})}" class="action-btn delete-btn" title="Delete User">
+                                <i class="fa fa-trash"></i>
+                            </a>
+							<a href="#" 
+							   class="action-btn edit-btn" 
+							   title="Edit User"
+							   th:attr="data-id=${user.id},
+							            data-username=${user.username},
+							            data-staffcode=${user.staff.staffCode},
+							            data-authoriser=${user.authoriser}">
+							    <i class="fa fa-edit"></i>
+							</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/adduser.js}"></script>
+
+
+
+
+</html>

@@ -1,0 +1,45 @@
+
+/* Form messages */
+.message {
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.message.error { color: red; }
+.message.success { color: green; }
+
+/* Form group: label + input in same line */
+form .form-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+form .form-group label {
+    width: 200px;   /* fixed width for labels */
+    font-weight: 600;
+}
+
+form .form-group input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+/* Button styling */
+form .form-group button {
+    padding: 10px 16px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form .form-group button:hover {
+    background-color: #45a049;
+}
