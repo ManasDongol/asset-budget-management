@@ -9,6 +9,18 @@
     body {
       background-color: white;
     }
+	@media print {
+	    @page {
+	      size: A4;
+	      margin: 0;
+	    }
+
+	    body {
+	      margin: 0;
+	      padding: 0;
+	    }
+	  }
+
   </style>
 </head>
 <body>
@@ -19,6 +31,7 @@
 
   <!-- Load Memo Form -->
   <form th:action="@{/asset-application/new}" method="get" class="load-application">
+	
     <input type="text" name="appNumber" placeholder="e.g. 2082/83-007" />
     <button type="submit">Load Memo</button>
   </form>
@@ -37,6 +50,7 @@
 
   <!-- Application Form -->
   <form th:action="@{/asset-application/save}" method="post" th:object="${applicationDetails}">
+	<div class="print-page">
     <!-- Letter Head -->
     <div class="letter-head">
       <div>
@@ -184,6 +198,7 @@
     <div class="save-btn" style="margin-top:20px;">
       <button type="submit">Save</button>
     </div>
+	</div>
   </form>
 
   <!-- Search Section -->

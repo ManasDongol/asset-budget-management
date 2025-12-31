@@ -301,7 +301,13 @@ table input.printable-input {
     white-space: nowrap;
   }
 
-  @page {
-    size: A4;
-  }
+  .print-page {
+      padding: 18mm 15mm 20mm 18mm;
+      box-sizing: border-box;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
 }
