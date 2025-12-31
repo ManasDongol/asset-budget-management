@@ -10,11 +10,20 @@ import com.project.budget.repository.BranchRepository;
 import com.project.budget.repository.FiscalRepository;
 import com.project.budget.service.AssetHistoryService;
 
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -268,6 +277,53 @@ public class AssetApplicationController {
         List<AssetHistoryEntity> assets = assetHistoryService.getByBranchCode(branchCode);
         model.addAttribute("assets", assets);
         return "fragments/asset-table :: assetTableBodyFragment";
+    }
+    
+    @GetMapping("/export")
+    public void exportBranchesToExcel(HttpServletResponse response) throws IOException {
+        // Set content type and header
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        String fileName = "applications_" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".xlsx";
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        // Fetch branch data
+        List<ApplicationDetailsEntity> applicationlist = applicationDetailsRepository.findAll();
+
+        // Create workbook and sheet
+        try (XSSFWorkbook workbook = new XSSFWorkbook();
+             ServletOutputStream outputStream = response.getOutputStream()) {
+
+            XSSFSheet sheet = workbook.createSheet("Branches");
+
+            // Header row
+            XSSFRow headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Application Number");
+            headerRow.createCell(1).setCellValue("Fiscal Year");
+            headerRow.createCell(2).setCellValue("To Whom");
+            headerRow.createCell(3).setCellValue("Date");
+            headerRow.createCell(4).setCellValue("Subject");
+            headerRow.createCell(5).setCellValue("Staff Name");
+
+            // Data rows
+            int rowCount = 1;
+            for (ApplicationDetailsEntity application : applicationlist) {
+                XSSFRow row = sheet.createRow(rowCount++);
+                row.createCell(0).setCellValue(application.getApplicationNumber());
+                row.createCell(1).setCellValue(application.getFiscalYear());
+                row.createCell(2).setCellValue(application.getToWhom());
+                row.createCell(3).setCellValue(application.getDate());
+                row.createCell(4).setCellValue(application.getSubject());
+                row.createCell(5).setCellValue(application.getStaffFullName());
+            }
+
+            // Auto-size columns
+            for (int i = 0; i <= 4; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Write workbook to output stream
+            workbook.write(outputStream);
+        }
     }
 
 }
