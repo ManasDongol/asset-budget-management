@@ -149,7 +149,7 @@
 	        </div>
 	      </td>
 	      <td><input type="text" th:field="*{assetHistories[__${iterStat.index}__].itemDetails}" class="printable-input"></td>
-	      <td><input type="text" th:field="*{assetHistories[__${iterStat.index}__].quantity}" class="printable-input quantity"></td>
+	      <td><input type="text" step="0.01" th:field="*{assetHistories[__${iterStat.index}__].quantity}" class="printable-input quantity"></td>
 	      <td><input type="text" step="0.01" th:field="*{assetHistories[__${iterStat.index}__].amount}" class="printable-input number"></td>
 	      <td><input type="text" step="0.01" th:field="*{assetHistories[__${iterStat.index}__].requestedAmount}" class="printable-input number requested-amount"></td>
 	      <td><textarea th:field="*{assetHistories[__${iterStat.index}__].remark}" class="printable-textarea"></textarea></td>

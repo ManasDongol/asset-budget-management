@@ -22,17 +22,18 @@
 
 		<p>
 		    <strong>Application Number:</strong>
-		    <span th:text="${applicationNumber}">N/A</span>
+			
+		    <span th:text="${application.appNumber}">N/A</span>
 		</p>
 
 		<p>
 		    <strong>Fiscal Year:</strong>
-		    <span th:text="${application != null} ? ${application.fiscalYear} : 'N/A'">N/A</span>
+		    <span th:text="${application.fiscalYear}">N/A</span>
 		</p>
 
 		<p>
 		    <strong>Submitted Date:</strong>
-		    <span th:text="${application != null} ? ${application.date} : 'N/A'">N/A</span>
+		    <span th:text="${application.date}">N/A</span>
 		</p>
     </section>
 
@@ -42,8 +43,9 @@
         </a>
 
         <!-- ✅ Use query param because applicationNumber has "/" -->
-        <form th:action="@{/asset-application/delete(id=${application.applicationNumber})}" 
+        <form th:action="@{/asset-application/delete}" 
               method="post" style="display:inline;">
+			 <input type="hidden" name="id" th:value="${application.applicationNumber}" />
             <button type="submit" class="btn-delete">
                 <i class="fa fa-trash"></i> Delete
             </button>
