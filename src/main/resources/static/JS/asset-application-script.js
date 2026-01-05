@@ -84,6 +84,7 @@ function updateUnitsDisplay() {
   rows.forEach(row => {
     const qtyInput = row.querySelector('input.quantity');
     if (qtyInput) {
+	  qtyInput.value = formatIndianNumber(qtyInput.value);
       let thaanSpan = row.querySelector('.quantity-unit');
       if (!thaanSpan) {
         thaanSpan = document.createElement('span');
