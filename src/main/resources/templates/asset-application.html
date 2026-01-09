@@ -28,13 +28,16 @@
     <div th:replace="fragments/navbar :: navbar"></div>
     <div th:replace="fragments/sidebar :: sidebar"></div>
   </header>
-
+  <div th:if="${successMessage}" class="success-msg" th:text="${successMessage}"></div>
+     <div th:if="${errorMessage}" class="error-msg" th:text="${errorMessage}"></div>
   <!-- Load Memo Form -->
   <form th:action="@{/asset-application/new}" method="get" class="load-application">
 	
     <input type="text" name="appNumber" placeholder="e.g. 2082/83-007" />
     <button type="submit">Load Memo</button>
   </form>
+  <!-- Messages -->
+   
 
   <!-- User Actions -->
   <div class="user-actions">
@@ -44,9 +47,7 @@
     <button class="print-btn" onclick="window.print()">Print Sample</button>
   </div>
 
-  <!-- Messages -->
-  <div th:if="${successMessage}" class="success-msg" th:text="${successMessage}"></div>
-  <div th:if="${errorMessage}" class="error-msg" th:text="${errorMessage}"></div>
+ 
 
   <!-- Application Form -->
   <form th:action="@{/asset-application/save}" method="post" th:object="${applicationDetails}">

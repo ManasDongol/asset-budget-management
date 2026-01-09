@@ -251,6 +251,8 @@ table input.printable-input {
   .search-section,
   .save-btn,
   .load-application,
+  .success-msg,
+  .error-msg,
   #addRowBtn,
   #removeRowBtn,
   header {
